@@ -1,102 +1,54 @@
-# 🎮 Mario Relational Database (PostgreSQL)
+# Mario Relational Database (PostgreSQL)
 
-This repository contains a complete PostgreSQL relational database project inspired by the Mario universe.  
-It was created as part of the **FreeCodeCamp – Relational Databases** course.
+A complete PostgreSQL relational database project inspired by the Mario universe,
+built as part of freeCodeCamp's Relational Databases certification.
+`mario_database.sql` contains the full schema, relationships, constraints,
+sequences, and data.
 
-The file **`mario_database.sql`** includes the full schema, table structure, relationships, constraints, sequences, and all data.
+## Contents
 
----
-
-## 📂 Contents
-
-- `mario_database.sql` — Full database dump:
-  - Tables
-    - `characters`
-    - `more_info`
-    - `sounds`
-    - `actions`
-    - `character_actions` (junction table)
+- `mario_database.sql` — full database dump:
+  - Tables: `characters`, `more_info`, `sounds`, `actions`, `character_actions` (junction table)
   - Primary keys & composite keys
-  - Foreign keys
-  - Unique constraints
-  - NOT NULL constraints
-  - Sequences for SERIAL columns
-  - Inserted data for all characters, actions, sounds, and info
+  - Foreign keys, unique and `NOT NULL` constraints
+  - Sequences for `SERIAL` columns
+  - Sample data for all characters, actions, sounds, and info
 
----
+## Database Features
 
-## 🛠️ Database Features
+- **One-to-one** — `characters` ↔ `more_info`, enforced via a `UNIQUE NOT NULL` foreign key.
+- **One-to-many** — `characters` → `sounds`: a character can have many sounds.
+- **Many-to-many** — `characters` ↔ `actions`, implemented via the `character_actions` junction table.
+- **Full normalization** — no duplicated data, clear foreign keys, meaningful column names, referential integrity.
 
-### ✔️ One-to-One Relationship
-- `characters` ↔ `more_info`  
-  Enforced through a UNIQUE + NOT NULL foreign key.
+## Entity-Relationship Overview
 
-### ✔️ One-to-Many Relationship
-- `characters` → `sounds`  
-  A character can have many sounds.
+```
+characters(character_id PK)
+more_info(more_info_id PK, character_id FK UNIQUE NOT NULL)
+actions(action_id PK)
+sounds(sound_id PK, character_id FK)
+character_actions(character_id FK, action_id FK, PRIMARY KEY(character_id, action_id))
+```
 
-### ✔️ Many-to-Many Relationship
-- `characters` ↔ `actions`  
-  Implemented using the `character_actions` junction table.
+- `characters` 1 → 1 `more_info`
+- `characters` 1 → ∞ `sounds`
+- `characters` ∞ → ∞ `actions` (via `character_actions`)
 
-### ✔️ Full Normalization
-- No duplicated data  
-- Clear foreign keys  
-- Meaningful column names  
-- Referential integrity ensured
+## How to Restore
 
----
-
-## 🚀 How to Restore This Database
-
-1. Make sure PostgreSQL is installed.
-2. Create a new empty database (optional):
-3. Restore the dump:
-
+```bash
 psql -d mario_database -f mario_database.sql
+```
 
-That’s it — the schema, relationships, and data will be fully restored.
+## About This Project
 
-## 📊 Entity-Relationship Overview
+Built step-by-step while completing freeCodeCamp's Relational Databases
+certification, covering table creation, `SERIAL`/sequences, primary and composite
+keys, unique/`NOT NULL` constraints, foreign keys, joins, and relational modeling.
 
-**Tables:**
-
-* `characters(character_id PK)`
-* `more_info(more_info_id PK, character_id FK UNIQUE NOT NULL)`
-* `actions(action_id PK)`
-* `sounds(sound_id PK, character_id FK)`
-* `character_actions(character_id FK, action_id FK, PRIMARY KEY(character_id, action_id))`
-
-**Relationships:**
-
-* `characters` 1 → 1 `more_info`
-* `characters` 1 → ∞ `sounds`
-* `characters` ∞ → ∞ `actions` via `character_actions`
-
----
-
-## 📘 About This Project
-
-This database was created step-by-step while completing FreeCodeCamp’s **Relational Databases** certification.
-It demonstrates:
-
-* Table creation
-* Adding/altering columns
-* SERIAL and sequences
-* Primary keys and composite keys
-* UNIQUE and NOT NULL constraints
-* Foreign keys and cascading relations
-* JOIN operations
-* Relational modeling
-
-Perfect for portfolio use and demonstrating SQL + PostgreSQL skills.
-
----
-
-## 👤 Author
+## Author
 
 **Alejandro Oviedo**
-📍 Comodoro Rivadavia, Argentina
-GitHub: [https://github.com/aleoviedo071298](https://github.com/aleoviedo071298)
-
----
+Comodoro Rivadavia, Argentina
+[github.com/aleoviedo071298](https://github.com/aleoviedo071298)
